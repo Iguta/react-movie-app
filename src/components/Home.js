@@ -45,7 +45,7 @@ const Home = () => {
                             key={movie.id}
                             clickable={true}
                             image={movie.backdrop_path
-                                ? IMAGE_BASE_URL + BACKDROP_SIZE + movie.backdrop_path
+                                ? IMAGE_BASE_URL + POSTER_SIZE + movie.backdrop_path
                                 : NoImage
                             }
                             movieId={movie.id}
