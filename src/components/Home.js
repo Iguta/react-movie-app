@@ -18,11 +18,14 @@ import Thumb from './Thumb';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';
 import Button from './Button';
-
+//switch componnet -> Movies or TVShows
+import Switch from './Switch';
 //home componnet
 const Home = () => {
 
-    const { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore } = useHomeFetch();
+    
+    const { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore, movieOrTVShow, setMovieOrTVShow } = useHomeFetch();
+    console.log(movieOrTVShow);
     if (error) {
         return <div>Ooops!! Something went wrong</div>
     }
@@ -37,8 +40,9 @@ const Home = () => {
                     title={state.results[0].original_title}
                 />
             }
-            <SearchBar setSearchTerm={setSearchTerm} />
-            <Grid header={searchTerm ? 'Search Results' : 'Popular Movies'}>
+            <SearchBar setSearchTerm={setSearchTerm} movieOrTVShow={movieOrTVShow}/>
+            <Switch setMovieOrTVShow={setMovieOrTVShow}/>
+            <Grid header={searchTerm ? `Search ${movieOrTVShow} Results` : `Popular ${movieOrTVShow}`}>
                 {
                     state.results.map(movie => (
                         <Thumb
@@ -49,8 +53,8 @@ const Home = () => {
                                 : NoImage
                             }
                             movieId={movie.id}
-                            movieTitle={movie.title}
-                            releaseDate={movie.release_date}
+                            movieTitle={movieOrTVShow === 'Movies' ? movie.title : movie.name}
+                            releaseDate={movieOrTVShow === 'Movies' ? movie.release_date : movie.first_air_date}
                         />
                     ))
                 }

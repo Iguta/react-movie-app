@@ -1,6 +1,8 @@
 import {
   SEARCH_BASE_URL,
   POPULAR_BASE_URL,
+  POPULAR_BASE_TV_URL,
+  SEARCH_TV_SHOW_URL,
   API_URL,
   API_KEY,
   REQUEST_TOKEN_URL,
@@ -22,12 +24,22 @@ const apiSettings = {
       : `${POPULAR_BASE_URL}&page=${page}`;
     return await (await fetch(endpoint)).json();
   },
+  fetchTVShows: async (searchTerm, page) => {
+    const endpoint = searchTerm
+      ?`${SEARCH_TV_SHOW_URL}${searchTerm}&page=${page}`
+      :`${POPULAR_BASE_TV_URL}&page=&{page}`;
+      return await (await fetch(endpoint)).json();
+  },
   fetchMovieVideo: async (movieId) => {
     const endpoint = `${API_URL}movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`;
     return await (await fetch(endpoint)).json();
   },
   fetchMovie: async movieId => {
-    const endpoint = `${API_URL}movie/${movieId}?api_key=${API_KEY}`;
+    const endpoint = `${API_URL}movie/${movieId}?api_key=${API_KEY}&language=en-US`;
+    return await (await fetch(endpoint)).json();
+  },
+  fetchTVShow: async TvShowId => {
+    const endpoint = `${API_URL}tv/${TvShowId}?api_key=${API_KEY}&language=en-US`;
     return await (await fetch(endpoint)).json();
   },
   fetchCredits: async movieId => {

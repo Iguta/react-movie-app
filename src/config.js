@@ -9,6 +9,10 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const SEARCH_BASE_URL = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=`;
 //for popular movies
 const POPULAR_BASE_URL = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US`;
+//For popular TV series
+const POPULAR_BASE_TV_URL = `${API_URL}tv/popular?api_key=${API_KEY}&language=en-US`;
+//for searching a tv show
+const SEARCH_TV_SHOW_URL = `${API_URL}search/tv?api_key=${API_KEY}&language=en-US&query=`;
 // For login and voting
 const REQUEST_TOKEN_URL = `${API_URL}authentication/token/new?api_key=${API_KEY}`;
 const LOGIN_URL = `${API_URL}authentication/token/validate_with_login?api_key=${API_KEY}`;
@@ -23,6 +27,8 @@ const POSTER_SIZE = 'w780';
 export {
   SEARCH_BASE_URL,
   POPULAR_BASE_URL,
+  POPULAR_BASE_TV_URL,
+  SEARCH_TV_SHOW_URL,
   API_URL,
   API_KEY,
   IMAGE_BASE_URL,

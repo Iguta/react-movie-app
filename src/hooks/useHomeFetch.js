@@ -15,12 +15,15 @@ const initialState = {
     total_results: 0
 }
 export const useHomeFetch = () => {
-    const [searchTerm, setSearchTerm] = useState()
+    const [searchTerm, setSearchTerm] = useState();
     const [state, setState] = useState(initialState);
     const [loading, setLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
     const [error, setError] = useState(false);
+
+    //For TV Shows
+    const [movieOrTVShow, setMovieOrTVShow] = useState("Movies");
 
     console.log(searchTerm);
 
@@ -28,13 +31,23 @@ export const useHomeFetch = () => {
         try {
             setError(false);
             setLoading(true);
-            const movies = await API.fetchMovies(searchTerm, page);
-            console.log(movies)
+            if(movieOrTVShow === "Movies"){
+                const movies = await API.fetchMovies(searchTerm, page);
+                console.log(movies);
+                setState(prev => ({
+                    ...movies,
+                    results: page > 1 ? [...prev.results, ...movies.results] : [...movies.results]
+                }));
+            }
+            else if(movieOrTVShow === 'TVShows'){
+                console.log("In this block...")
+                const tvShows = await API.fetchTVShows(searchTerm, page);
+                setState(prev => ({
+                    ...tvShows,
+                    results:page>1 ? [...prev.results, ...tvShows.results] : [...tvShows.results]
+                }));
+            }
 
-            setState(prev => ({
-                ...movies,
-                results: page > 1 ? [...prev.results, ...movies.results] : [...movies.results]
-            }));
         }
         catch {
             setError(true);
@@ -47,7 +60,7 @@ export const useHomeFetch = () => {
     useEffect(() => {
 
         if (!searchTerm) {
-            const sessionState = isPersistent('homeState');
+            const sessionState = isPersistent(movieOrTVShow);
             if (sessionState) {
                 console.log("Grabbing from session storage...");
                 setState(sessionState)
@@ -57,7 +70,7 @@ export const useHomeFetch = () => {
         console.log("Grabbing from API...");
         setState(initialState);
         fetchMovies(1, searchTerm);
-    }, [searchTerm]);
+    }, [searchTerm, movieOrTVShow]);
 
     
     useEffect(() => {
@@ -68,9 +81,9 @@ export const useHomeFetch = () => {
 
     //write to sessionStorage
     useEffect(() => {
-        if (!searchTerm) sessionStorage.setItem('homeState', JSON.stringify(state));
+        if (!searchTerm) sessionStorage.setItem(movieOrTVShow, JSON.stringify(state));
     }, [searchTerm, state]);
 
-    return { state, error, loading, searchTerm, setSearchTerm, setIsLoadingMore };
+    return { state, error, loading, searchTerm, setSearchTerm, setIsLoadingMore, movieOrTVShow, setMovieOrTVShow };
 
 }

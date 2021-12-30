@@ -9,9 +9,10 @@ import searchIcon from '../../images/search-icon.svg'
 
 import { Wrapper, Content } from './SearchBar.Styles';
 
-const SearchBar = ({ setSearchTerm }) => {
+const SearchBar = ({ setSearchTerm, movieOrTVShow }) => {
     const [state, setState] = useState('');
     const initial = useRef(true);
+    console.log(`${movieOrTVShow}:This should be working`)
 
     useEffect(() => {
         if(initial.current){
@@ -30,7 +31,7 @@ const SearchBar = ({ setSearchTerm }) => {
                 <img src={searchIcon} alt='search-icon' />
                 <input
                     type='text'
-                    placeholder='Search Movie'
+                    placeholder={`Search ${movieOrTVShow}`}
                     onChange={event => setState(event.currentTarget.value)}
                     value={state}
                 />
