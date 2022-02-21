@@ -46,6 +46,19 @@ const apiSettings = {
     const creditsEndpoint = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`;
     return await (await fetch(creditsEndpoint)).json();
   },
+
+  fetchGenres: async () => {
+    const genresEndpoint = `${API_URL}genre/movie/list?api_key=${API_KEY}&language=en-US`;
+    return await (await fetch(genresEndpoint)).json();
+  },
+  fetchMoviesTvsGenre: async (genreId, movieOrTVShow) => {
+      const movieOrTVParam = movieOrTVShow === "Movies" ? "movie" : "tv";
+      const moviesGenresEndpoint = `${API_URL}discover/${movieOrTVParam}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=${genreId}`;
+      console.log(`Endpoint: ${moviesGenresEndpoint}`);
+      const return_data = await (await fetch(moviesGenresEndpoint)).json();
+      console.log(`RETURN DATA IS: ${return_data}`);
+      return return_data;
+  },
   // Bonus material below for login
   getRequestToken: async () => {
     const reqToken = await (await fetch(REQUEST_TOKEN_URL)).json();
@@ -90,3 +103,5 @@ const apiSettings = {
 };
 
 export default apiSettings;
+
+

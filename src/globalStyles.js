@@ -18,11 +18,11 @@ export const GlobalStyle = createGlobalStyle`
 }
 body{
     margin:0;
-    paddding:0;
+    padding:0;
 
     h1{
         font-size: 2rem;
-        font-weigh:600;
+        font-weight:600;
         color:var(--white);
     }
     h3{

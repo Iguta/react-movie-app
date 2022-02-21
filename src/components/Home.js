@@ -20,12 +20,27 @@ import SearchBar from './SearchBar';
 import Button from './Button';
 //switch componnet -> Movies or TVShows
 import Switch from './Switch';
+import GenreOptions from './GenreOptions';
+
 //home componnet
 const Home = () => {
-
-    
-    const { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore, movieOrTVShow, setMovieOrTVShow } = useHomeFetch();
-    console.log(movieOrTVShow);
+    const { 
+        state, 
+        loading, 
+        error, 
+        searchTerm, 
+        setSearchTerm, 
+        setIsLoadingMore, 
+        movieOrTVShow, 
+        setMovieOrTVShow,
+        genres,
+        setGenreSelected,
+        genreSelected,
+        errorGenre
+     } = useHomeFetch();
+    //console.log(movieOrTVShow);
+    //console.log(genreSelected);
+    //console.log(genres);
     if (error) {
         return <div>Ooops!! Something went wrong</div>
     }
@@ -42,6 +57,8 @@ const Home = () => {
             }
             <SearchBar setSearchTerm={setSearchTerm} movieOrTVShow={movieOrTVShow}/>
             <Switch setMovieOrTVShow={setMovieOrTVShow}/>
+            {loading && genreSelected && <Spinner />}
+            <GenreOptions genres={genres.genres} error={errorGenre} genreSelected={genreSelected} setGenreSelected={setGenreSelected}/>
             <Grid header={searchTerm ? `Search ${movieOrTVShow} Results` : `Popular ${movieOrTVShow}`}>
                 {
                     state.results.map(movie => (
@@ -59,13 +76,14 @@ const Home = () => {
                     ))
                 }
             </Grid>
-            {loading && <Spinner />}
+            {loading && !genreSelected && <Spinner />}
             {state.page < state.total_pages && !loading && (
                 <Button text="Load More" callback={() => setIsLoadingMore(true)}></Button>
             )}
         </>
     )
 }
+
 
 
 export default Home;

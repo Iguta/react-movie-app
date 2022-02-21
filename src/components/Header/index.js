@@ -8,7 +8,17 @@ import { Wrapper, Content, LogoImg, TMDBLogoImg } from './Header.styles';
  
 import {Link} from 'react-router-dom';
 
-const Header = () => (
+//switch component
+import Switch from '../Switch';
+
+//Home hook
+import { useHomeFetch } from '../../hooks/useHomeFetch';
+
+
+
+const Header = () => {
+    const {setMovieOrTVShow} = useHomeFetch()
+    return(
     <Wrapper>
         <Content>
             <Link to="/">
@@ -17,6 +27,7 @@ const Header = () => (
            <TMDBLogoImg src={TMDBLogo} alt="tmdb-logo"></TMDBLogoImg>
         </Content>
     </Wrapper>
-);
+    )
+};
 
 export default Header;
